@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Your 30-Day Plan{% endblock %}
+{% block content %}
+<section class="card">
+    <h1>Your 30-Day Plan</h1>
+    <p class="summary">
+        Age {{ user_input.age }} &middot; {{ user_input.gender }} &middot; {{ user_input.weight }} kg &middot;
+        Goal: {{ user_input.goal }} &middot; Diet: {{ user_input.diet_type }}
+        {% if user_input.allergies %} &middot; Avoiding: {{ user_input.allergies|join(', ') }}{% endif %}
+    </p>
+    <p class="calorie-target">Estimated daily calorie target: <strong>{{ daily_calories }} kcal</strong></p>
+</section>
+
+<section class="card">
+    <h2>Food Plan</h2>
+    <div class="table-scroll">
+    <table>
+        <thead><tr><th>Day</th><th>Breakfast</th><th>Lunch</th><th>Snacks</th><th>Dinner</th></tr></thead>
+        <tbody>
+        {% for day, meals in food_plan.items() %}
+            <tr>
+                <td>{{ day }}</td>
+                <td>{{ meals.Breakfast }}</td>
+                <td>{{ meals.Lunch }}</td>
+                <td>{{ meals.Snacks }}</td>
+                <td>{{ meals.Dinner }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</section>
+
+<section class="card">
+    <h2>Workout Plan</h2>
+    <div class="table-scroll">
+    <table>
+        <thead><tr><th>Day</th><th>Target Muscle</th><th>Exercises (Sets x Reps)</th></tr></thead>
+        <tbody>
+        {% for day, workout in workout_plan.items() %}
+            <tr>
+                <td>{{ day }}</td>
+                {% if workout.Rest %}
+                    <td colspan="2" class="rest">{{ workout.Rest }}</td>
+                {% else %}
+                    <td>{{ workout['Target Muscle'] }}</td>
+                    <td>
+                        {% for ex in workout.Exercises %}
+                            {{ ex['Exercise Name'] }} ({{ ex.Sets }}x{{ ex.Reps }}){% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</section>
+
+<a href="/exercises" class="btn-secondary">Track a workout live &rarr;</a>
+{% endblock %}

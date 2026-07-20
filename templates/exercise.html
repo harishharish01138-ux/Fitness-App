@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}{{ label }} Tracker{% endblock %}
+{% block content %}
+<section class="card">
+    <h1>{{ label }} Tracker</h1>
+    <div class="form-row">
+        <label>Target reps (optional)
+            <input type="number" id="target-reps" min="1" placeholder="e.g. 15">
+        </label>
+        <button class="btn-primary" id="start-btn">Start Camera</button>
+    </div>
+
+    <div id="video-wrapper" class="video-wrapper" style="display:none;">
+        <img id="video-feed" src="" alt="Live pose tracking feed">
+    </div>
+
+    <div class="stats" id="stats" style="display:none;">
+        <span>Reps: <strong id="rep-count">0</strong></span>
+        <span>Calories: <strong id="cal-count">0</strong></span>
+    </div>
+</section>
+
+<script>
+const exerciseKey = "{{ name }}";
+const startBtn = document.getElementById('start-btn');
+const videoWrapper = document.getElementById('video-wrapper');
+const videoFeed = document.getElementById('video-feed');
+const stats = document.getElementById('stats');
+const repCount = document.getElementById('rep-count');
+const calCount = document.getElementById('cal-count');
+let pollTimer = null;
+
+startBtn.addEventListener('click', () => {
+    const target = document.getElementById('target-reps').value;
+    const url = target ? `/video_feed/${exerciseKey}?target=${target}` : `/video_feed/${exerciseKey}`;
+    videoFeed.src = url;
+    videoWrapper.style.display = 'block';
+    stats.style.display = 'flex';
+    startBtn.textContent = 'Restart Camera';
+
+    if (pollTimer) clearInterval(pollTimer);
+    pollTimer = setInterval(async () => {
+        try {
+            const res = await fetch(`/count/${exerciseKey}`);
+            const data = await res.json();
+            repCount.textContent = data.count ?? 0;
+            calCount.textContent = (data.calories ?? 0).toFixed ? data.calories.toFixed(1) : data.calories;
+        } catch (e) { /* ignore transient errors */ }
+    }, 1000);
+});
+</script>
+{% endblock %}

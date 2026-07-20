@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}FitSmart - Home{% endblock %}
+{% block content %}
+<section class="hero">
+    <h1>Smart Fitness &amp; Diet Recommendations</h1>
+    <p>Personalized 30-day meal &amp; workout plans, powered by XGBoost, LightGBM and Gaussian Mixture clustering &mdash;
+       plus real-time rep counting with MediaPipe pose detection.</p>
+</section>
+
+<section class="card">
+    <h2>Tell us about you</h2>
+    <form action="/plan" method="post" class="input-form">
+        <div class="form-row">
+            <label>Age
+                <input type="number" name="age" value="25" min="10" max="100" required>
+            </label>
+            <label>Gender
+                <select name="gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </label>
+        </div>
+        <div class="form-row">
+            <label>Weight (kg)
+                <input type="number" step="0.1" name="weight" value="70" min="20" max="300" required>
+            </label>
+            <label>Goal
+                <select name="goal">
+                    <option value="Bulking">Bulking</option>
+                    <option value="Cutting">Cutting</option>
+                </select>
+            </label>
+        </div>
+        <div class="form-row">
+            <label>Diet Preference
+                <select name="diet_type">
+                    <option value="Non-Vegetarian">Non-Vegetarian</option>
+                    <option value="Vegetarian">Vegetarian</option>
+                </select>
+            </label>
+            <label>Allergies (comma separated)
+                <input type="text" name="allergies" placeholder="e.g. Nuts, Dairy">
+            </label>
+        </div>
+        <button type="submit" class="btn-primary">Generate My 30-Day Plan</button>
+    </form>
+</section>
+
+<section class="card highlight">
+    <h2>Or jump straight to live rep counting</h2>
+    <p>Track squats, push-ups, pull-ups, bicep curls, and crunches in real time via your webcam.</p>
+    <a href="/exercises" class="btn-secondary">Open Live Tracker</a>
+</section>
+{% endblock %}

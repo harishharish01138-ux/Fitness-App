@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}FitSmart{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="brand">FitSmart</a>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/plan">My Plan</a>
+            <a href="/exercises">Live Tracker</a>
+        </div>
+    </nav>
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>ML-powered fitness &amp; diet recommendations &middot; pose tracking via MediaPipe</p>
+    </footer>
+</body>
+</html>

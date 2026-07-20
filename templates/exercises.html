@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Live Exercise Tracker{% endblock %}
+{% block content %}
+<section class="card">
+    <h1>Live Exercise Tracker</h1>
+    <p>Pick an exercise. Your browser will ask for webcam access; MediaPipe pose detection counts reps in real time.</p>
+    <div class="exercise-grid">
+        {% for key, label in exercises.items() %}
+        <a class="exercise-tile" href="/exercise/{{ key }}">{{ label }}</a>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
